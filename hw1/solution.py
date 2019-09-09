@@ -18,11 +18,13 @@ df = pd.concat([df_class_0_under, df_class_1_under], axis=0)
 import sklearn # import scikit-learn
 from sklearn import preprocessing # import preprocessing utilites
 
-features_cat = ['loan_purpose_name', 'applicant_sex_name', 'applicant_ethnicity_name', 'co_applicant_ethnicity_name', 'is_hoepa_loan', 'co_applicant_sex_name', 'property_type_name', 'loan_type_name', 'occupied_by_owner', 'applicant_race_name_1', 'co_applicant_race_name_1']
+features_cat = ['loan_purpose_name', 'applicant_sex_name', 'applicant_ethnicity_name', 'co_applicant_ethnicity_name', 'is_hoepa_loan', 'co_applicant_sex_name', 'property_type_name', 'loan_type_name', 'occupied_by_owner', 'applicant_race_name_1', 'co_applicant_race_name_1', 'denial_reason_name_1']
 features_num = ['loan_amount_000s', 'applicant_income_000s']
 
 X_cat = df[features_cat]
 X_num = df[features_num]
+
+X_cat = X_cat.fillna("")
 
 enc = preprocessing.OneHotEncoder()
 enc.fit(X_cat) # fit the encoder to categories in our data 
@@ -46,7 +48,6 @@ y = df['loan_approved'] # target
 from sklearn.model_selection import train_test_split
 X_train, X_TEMP, y_train, y_TEMP = train_test_split(X, y, test_size=0.30) # split out into training 70% of our data
 X_validation, X_test, y_validation, y_test = train_test_split(X_TEMP, y_TEMP, test_size=0.50) # split out into validation 15% of our data and test 15% of our data
-print(X_train.shape, X_validation.shape, X_test.shape) # print data shape to check the sizing is correct
 
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
